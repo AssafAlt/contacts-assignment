@@ -22,5 +22,26 @@
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_allContactsFragment"
+            app:destination="@id/allContactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allContactsFragment"
+        android:name="com.example.contactsassignment.ui.all_contacts.AllContactsFragment"
+        android:label="fragment_all_contacts"
+        tools:layout="@layout/fragment_all_contacts" >
+        <action
+            android:id="@+id/action_allContactsFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactFragment"
+        android:name="com.example.contactsassignment.ui.add_contact.AddContactFragment"
+        android:label="fragment_add_contact"
+        tools:layout="@layout/fragment_add_contact" >
+        <action
+            android:id="@+id/action_addContactFragment_to_allContactsFragment"
+            app:destination="@id/allContactsFragment" />
     </fragment>
 </navigation>

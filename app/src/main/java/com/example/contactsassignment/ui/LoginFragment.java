@@ -63,7 +63,8 @@ public class LoginFragment extends Fragment {
                 if (userId != null && userId > 0) {
 
                     prefManager.saveUserId(userId);
-                    Toast.makeText(requireContext(), userId.toString(), Toast.LENGTH_SHORT).show();
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_loginFragment_to_allContactsFragment);
 
                 } else {
 
