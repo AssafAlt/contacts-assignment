@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.loacl_db.PrefManager;
 import com.example.contactsassignment.data.repository.UserRepository;
 import com.example.contactsassignment.databinding.FragmentLoginBinding;
-import com.example.contactsassignment.databinding.FragmentSignUpBinding;
 
 
 public class LoginFragment extends Fragment {
