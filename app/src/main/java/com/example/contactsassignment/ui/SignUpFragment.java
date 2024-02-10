@@ -91,6 +91,8 @@ private  FragmentSignUpBinding binding;
                 binding.editTextPassword.setText("");
                 binding.editTextConfirmPassword.setText("");
             });
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_signUpFragment_to_loginFragment);
         }).start();
     }
 
