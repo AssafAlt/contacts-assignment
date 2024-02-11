@@ -17,6 +17,8 @@ import com.example.contactsassignment.data.loacl_db.PrefManager;
 import com.example.contactsassignment.data.repository.UserRepository;
 import com.example.contactsassignment.databinding.FragmentLoginBinding;
 
+import java.util.Objects;
+
 
 public class LoginFragment extends Fragment {
 
@@ -41,7 +43,7 @@ public class LoginFragment extends Fragment {
 
         binding = FragmentLoginBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        binding.buttonLogin.setOnClickListener(v -> performLogin());
+        binding.loginButton.setOnClickListener(v -> performLogin());
         binding.textViewToRegister.setOnClickListener(v -> {
 
             NavHostFragment.findNavController(this)
@@ -52,8 +54,8 @@ public class LoginFragment extends Fragment {
         return view;
     }
     private void performLogin() {
-        String username = binding.editTextLoginUsername.getText().toString();
-        String password = binding.editTextLoginPassword.getText().toString();
+        String username = Objects.requireNonNull(binding.editTextLoginUsername.getText()).toString();
+        String password = Objects.requireNonNull(binding.editTextLoginPassword.getText()).toString();
 
         new Thread(() -> {
             Integer userId = userRepository.loginUser(username, password);

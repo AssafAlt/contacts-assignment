@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_allContactsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_allContactsFragment_to_contactDetailsFragment"
+            app:destination="@id/contactDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"
@@ -42,6 +45,15 @@
         tools:layout="@layout/fragment_add_contact" >
         <action
             android:id="@+id/action_addContactFragment_to_allContactsFragment"
+            app:destination="@id/allContactsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactDetailsFragment"
+        android:name="com.example.contactsassignment.ui.ContactDetailsFragment"
+        android:label="fragment_contact_details"
+        tools:layout="@layout/fragment_contact_details" >
+        <action
+            android:id="@+id/action_contactDetailsFragment_to_allContactsFragment"
             app:destination="@id/allContactsFragment" />
     </fragment>
 </navigation>
