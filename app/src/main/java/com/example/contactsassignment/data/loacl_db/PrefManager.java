@@ -6,13 +6,11 @@ import android.content.SharedPreferences;
 public class PrefManager {
     private static final String PREF_NAME = "LoginPref";
     private static final String KEY_USER_ID = "userId";
-    private SharedPreferences pref;
-    private SharedPreferences.Editor editor;
-    private Context context;
+    private final SharedPreferences pref;
+    private final SharedPreferences.Editor editor;
 
     // Constructor
     public PrefManager(Context context) {
-        this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }

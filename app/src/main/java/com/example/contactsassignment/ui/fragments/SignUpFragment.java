@@ -1,4 +1,4 @@
-package com.example.contactsassignment.ui;
+package com.example.contactsassignment.ui.fragments;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -113,13 +113,9 @@ public class SignUpFragment extends Fragment {
                 requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show());
 
                 requireActivity().runOnUiThread(() -> {
-                    binding.editTextRegisterUsername.setText("");
-                    binding.editTextRegisterPassword.setText("");
-                    binding.editTextRegisterConfirmPassword.setText("");
+                    NavHostFragment.findNavController(this)
+                            .navigate(R.id.action_signUpFragment_to_loginFragment);
                 });
-
-                NavHostFragment.findNavController(this)
-                        .navigate(R.id.action_signUpFragment_to_loginFragment);
             }).start();
 
     }

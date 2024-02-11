@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.contactsassignment.ui.SignUpFragment"
+        android:name="com.example.contactsassignment.ui.fragments.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.contactsassignment.ui.LoginFragment"
+        android:name="com.example.contactsassignment.ui.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/allContactsFragment"
-        android:name="com.example.contactsassignment.ui.all_contacts.AllContactsFragment"
+        android:name="com.example.contactsassignment.ui.fragments.AllContactsFragment"
         android:label="fragment_all_contacts"
         tools:layout="@layout/fragment_all_contacts" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"
-        android:name="com.example.contactsassignment.ui.add_contact.AddContactFragment"
+        android:name="com.example.contactsassignment.ui.fragments.AddContactFragment"
         android:label="fragment_add_contact"
         tools:layout="@layout/fragment_add_contact" >
         <action
@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactDetailsFragment"
-        android:name="com.example.contactsassignment.ui.ContactDetailsFragment"
+        android:name="com.example.contactsassignment.ui.fragments.ContactDetailsFragment"
         android:label="fragment_contact_details"
         tools:layout="@layout/fragment_contact_details" >
         <action

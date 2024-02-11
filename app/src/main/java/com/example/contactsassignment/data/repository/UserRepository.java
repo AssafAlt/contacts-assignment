@@ -2,7 +2,6 @@ package com.example.contactsassignment.data.repository;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
 
 import com.example.contactsassignment.data.loacl_db.AppDatabase;
 import com.example.contactsassignment.data.loacl_db.UserDao;

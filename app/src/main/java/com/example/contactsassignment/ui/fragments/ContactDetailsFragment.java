@@ -1,31 +1,29 @@
-package com.example.contactsassignment.ui;
+package com.example.contactsassignment.ui.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-
-
 import androidx.fragment.app.Fragment;
-
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.models.Contact;
 import com.example.contactsassignment.databinding.FragmentContactDetailsBinding;
-import com.example.contactsassignment.ui.view_model.ContactsViewModel;
+import com.example.contactsassignment.helpers.ApiHelper;
+import com.example.contactsassignment.ui.adapters.GenderAdapter;
+import com.example.contactsassignment.ui.view_models.ContactsViewModel;
+
+import java.util.Objects;
 
 public class ContactDetailsFragment extends Fragment {
 
-    private final String[] genders = {"Male", "Female"};
     private ContactsViewModel contactsViewModel;
     private FragmentContactDetailsBinding binding;
-    private ArrayAdapter<String> genderAdapter;
+    private GenderAdapter genderAdapter;
 
     private  Contact originalContact;
     private boolean isEditMode = false;
@@ -36,7 +34,7 @@ public class ContactDetailsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-        genderAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, genders);
+        genderAdapter = new GenderAdapter(requireContext());
 
     }
 
@@ -46,6 +44,7 @@ public class ContactDetailsFragment extends Fragment {
         binding = FragmentContactDetailsBinding.inflate(inflater, container, false);
         binding.genderTextView.setAdapter(genderAdapter);
         Bundle bundle = getArguments();
+        Contact selectedContact = contactsViewModel.getSelectedContact();
         if (bundle != null) {
             int userId = contactsViewModel.getUserId();
             String contactName = bundle.getString("contactName");
@@ -73,7 +72,7 @@ public class ContactDetailsFragment extends Fragment {
 
         } else {
             Log.d("Frag_Check", "Received bundle is null");
-            // Handle null case (e.g., show a placeholder or error message)
+
         }
 
         binding.editButton.setOnClickListener(view -> {
@@ -87,6 +86,21 @@ public class ContactDetailsFragment extends Fragment {
             }
             isEditMode = !isEditMode;
         });
+        binding.automaticGenderButton.setOnClickListener(v -> {
+
+            String fullName = Objects.requireNonNull(binding.nameEditText.getText()).toString().trim();
+            if (!fullName.isEmpty()) {
+                String[] nameParts = fullName.split("\\s+");
+                String firstName = nameParts[0];
+                ApiHelper.getGenderFromApi(firstName, requireContext(), (gender, probability) -> {
+                    binding.genderTextView.setText(gender);
+                    binding.genderTextInputLayout.setHelperText("Gender Probability: " + probability);
+                });
+
+            } else {
+                binding.nameTextInputLayout.setError("Name can't be empty!");
+            }
+        });
 
         binding.cancelButton.setOnClickListener(v -> {
             if (!isEditMode) {
@@ -98,7 +112,6 @@ public class ContactDetailsFragment extends Fragment {
                         .setTitle("Discard Changes")
                         .setMessage("Are you sure do you want to discard changes?")
                         .setPositiveButton("Discard", (dialog, which) -> {
-                            // User confirmed to discard changes
                             disableEditMode();
                             binding.editButton.setText("Edit");
                             binding.nameEditText.setText(originalContact.getName());
@@ -106,7 +119,7 @@ public class ContactDetailsFragment extends Fragment {
                             binding.emailEditText.setText(originalContact.getEmail());
                             binding.genderTextView.setText(originalContact.getGender());
                         })
-                        .setNegativeButton("Cancel", null) // Do nothing if user cancels
+                        .setNegativeButton("Cancel", null)
                         .show();
             }
             isEditMode = !isEditMode;
@@ -123,7 +136,7 @@ public class ContactDetailsFragment extends Fragment {
                             NavHostFragment.findNavController(this)
                                     .navigate(R.id.action_contactDetailsFragment_to_allContactsFragment);
                         })
-                        .setNegativeButton("Cancel", null) // Do nothing if user cancels
+                        .setNegativeButton("Cancel", null)
                         .show();
 
 

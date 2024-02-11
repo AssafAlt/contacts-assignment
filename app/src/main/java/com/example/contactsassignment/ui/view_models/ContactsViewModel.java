@@ -1,4 +1,4 @@
-package com.example.contactsassignment.ui.view_model;
+package com.example.contactsassignment.ui.view_models;
 
 import android.app.Application;
 import android.util.Log;
@@ -22,7 +22,7 @@ public class ContactsViewModel extends AndroidViewModel {
     private int userId;
 
     // Initialize selectedContact with MutableLiveData
-    private MutableLiveData<Contact> selectedContact = new MutableLiveData<>();
+    private Contact selectedContact;
     private MutableLiveData<Integer> selectedContactId = new MutableLiveData<>();
 
     public ContactsViewModel(@NonNull Application application) {
@@ -38,8 +38,8 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     public void setSelectedContact(Contact selectedContact) {
-        Log.d("VIEW_MODEL_CHECK",selectedContact.getName());
-        this.selectedContact.setValue(selectedContact);
+
+        this.selectedContact= selectedContact;
     }
 
     public void setSelectedContactId(Integer contactId) {
@@ -52,7 +52,7 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     // Method to get selected contact
-    public LiveData<Contact> getSelectedContact() {
+    public Contact getSelectedContact() {
         return this.selectedContact;
     }
 

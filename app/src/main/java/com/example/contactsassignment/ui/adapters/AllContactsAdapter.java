@@ -1,4 +1,4 @@
-package com.example.contactsassignment.ui.all_contacts;
+package com.example.contactsassignment.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.contactsassignment.R;
@@ -65,8 +64,8 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
 
     public class AllContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView nameTextView;
-        private TextView phoneTextView;
+        private final TextView nameTextView;
+        private final TextView phoneTextView;
 
         public AllContactViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -96,7 +95,7 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
         }
     }
 
-    // Interface for handling click events
+
     public interface OnContactClickListener {
         void onContactClick(Contact contact);
     }
