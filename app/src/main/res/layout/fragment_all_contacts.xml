@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.all_contacts.AllContactsFragment">
 
     <TextView
@@ -10,10 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Contacts"
-        android:textSize="24sp"
+        android:textSize="28sp"
+        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="32dp" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
@@ -22,27 +24,35 @@
         android:layout_below="@id/titleTextView"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:queryHint="Search..."
-        android:iconifiedByDefault="false" />
+        android:iconifiedByDefault="false"
+        android:background="@drawable/search_view_background"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contactsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/searchView"
-        android:layout_above="@id/addContactButton"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:clipToPadding="false"
+        android:background="@drawable/recyclerview_background"
+        android:scrollbars="vertical"/>
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addContactButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/add_circle_outline_24"
-        android:background="@android:color/transparent" />
+        android:tint="@android:color/white"
+
+        app:borderWidth="0dp"/>
 
 </RelativeLayout>

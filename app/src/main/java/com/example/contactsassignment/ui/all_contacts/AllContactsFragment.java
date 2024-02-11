@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -61,7 +62,18 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
          allContactsAdapter = new AllContactsAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(allContactsAdapter);
 
+        binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                allContactsAdapter.filterContacts(newText); // Filter contacts when text changes
+                return true;
+            }
+        });
         contactsViewModel.getAllContacts().observe(getViewLifecycleOwner(), contacts -> {
             allContactsAdapter.setContacts(contacts);
         });
@@ -77,6 +89,9 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
         Bundle bundle = new Bundle();
         bundle.putString("contactName", contact.getName());
         bundle.putInt("contactId", contact.getId());
+        bundle.putString("contactPhone", contact.getPhone());
+        bundle.putString("contactEmail", contact.getEmail());
+        bundle.putString("contactGender", contact.getGender());
 contactsViewModel.setSelectedContactId(contact.getId());
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_allContactsFragment_to_contactDetailsFragment, bundle);

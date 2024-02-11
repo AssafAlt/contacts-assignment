@@ -12,15 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.models.Contact;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.AllContactViewHolder> {
 
     private List<Contact> contacts;
+    private List<Contact> filteredContacts; // New list to hold filtered contacts
     private OnContactClickListener listener;
 
     public AllContactsAdapter(List<Contact> contacts, OnContactClickListener listener) {
         this.contacts = contacts;
+        this.filteredContacts = new ArrayList<>(contacts); // Initialize filteredContacts with all contacts
         this.listener = listener;
     }
 
@@ -34,17 +37,29 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull AllContactViewHolder holder, int position) {
-        Contact contact = contacts.get(position);
+        Contact contact = filteredContacts.get(position); // Use filtered contacts list
         holder.bind(contact);
     }
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return filteredContacts.size(); // Use filtered contacts list size
     }
 
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
+        filterContacts(""); // Reset filter when contacts change
+    }
+
+    // Filter contacts based on prefix
+    public void filterContacts(String prefix) {
+        filteredContacts.clear();
+        for (Contact contact : contacts) {
+            if (contact.getName().toLowerCase().startsWith(prefix.toLowerCase())) {
+                filteredContacts.add(contact);
+            }
+
+        }
         notifyDataSetChanged();
     }
 
@@ -75,7 +90,7 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
             if (listener != null) {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.onContactClick(contacts.get(position));
+                    listener.onContactClick(filteredContacts.get(position)); // Use filtered contacts list
                 }
             }
         }
@@ -85,5 +100,4 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
     public interface OnContactClickListener {
         void onContactClick(Contact contact);
     }
-
 }

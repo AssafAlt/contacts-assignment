@@ -28,7 +28,7 @@ import com.example.contactsassignment.databinding.FragmentSignUpBinding;
 
 
 public class SignUpFragment extends Fragment {
-private  FragmentSignUpBinding binding;
+    private FragmentSignUpBinding binding;
     private UserRepository userRepository;
 
     @Override
@@ -43,7 +43,15 @@ private  FragmentSignUpBinding binding;
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        binding.buttonSignup.setOnClickListener(v->performSignup());
+        binding.registerButton.setOnClickListener(v -> {
+            String username = binding.editTextRegisterUsername.getText().toString().trim();
+            String password = binding.editTextRegisterPassword.getText().toString();
+            String confirmPassword = binding.editTextRegisterConfirmPassword.getText().toString();
+            if (validateInputs(username,password,confirmPassword)) {
+                performSignup(username,password);
+            }
+
+        });
         binding.textViewToLogin.setOnClickListener(v -> {
 
             NavHostFragment.findNavController(this)
@@ -54,46 +62,69 @@ private  FragmentSignUpBinding binding;
         return view;
     }
 
-    private void performSignup() {
-        String username = binding.editTextUsername.getText().toString().trim();
-        String password = binding.editTextPassword.getText().toString().trim();
-        String confirmPassword = binding.editTextConfirmPassword.getText().toString().trim();
+    private boolean validateInputs(String username,String password,String confirmPassword) {
+        boolean isValid = true;
 
-        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
-            return;
+
+        if (username.isEmpty()) {
+            binding.usernameTextInputLayout.setError("Username cannot be empty");
+            isValid = false;
+        } else {
+            binding.usernameTextInputLayout.setError(null);
         }
 
-        if (!password.equals(confirmPassword)) {
-            Toast.makeText(getContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
-            return;
+
+
+        if (password.isEmpty()) {
+            binding.passwordTextInputLayout.setError("Password cannot be empty");
+            isValid = false;
+        } else {
+            binding.passwordTextInputLayout.setError(null);
         }
 
-        // Execute signup process asynchronously
-        new Thread(() -> {
-            // Check if the username already exists
-            boolean existingUser = userRepository.isUserExists(username);
-            if (existingUser) {
-                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Username already exists", Toast.LENGTH_SHORT).show());
-                return;
-            }
 
-            // Register the user
-            User user = new User(username, password);
-            userRepository.registerUser(user);
 
-            // Display toast message for successful registration
-            requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show());
+        if (!confirmPassword.equals(password)) {
+            binding.confirmPasswordTextInputLayout.setError("Passwords do not match");
+            isValid = false;
+        } else {
+            binding.confirmPasswordTextInputLayout.setError(null);
+        }
 
-            // Clear input fields
-            requireActivity().runOnUiThread(() -> {
-                binding.editTextUsername.setText("");
-                binding.editTextPassword.setText("");
-                binding.editTextConfirmPassword.setText("");
-            });
-            NavHostFragment.findNavController(this)
-                    .navigate(R.id.action_signUpFragment_to_loginFragment);
-        }).start();
+        return isValid;
     }
 
+    private void performSignup(String username,String password) {
+
+
+            new Thread(() -> {
+                boolean existingUser = userRepository.isUserExists(username);
+                if(existingUser){
+                    requireActivity().runOnUiThread(() -> {
+                        binding.usernameTextInputLayout.setError("Username is already exists");
+
+                    });
+                    return;
+
+                }
+                User user = new User(username, password);
+                userRepository.registerUser(user);
+
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show());
+
+                requireActivity().runOnUiThread(() -> {
+                    binding.editTextRegisterUsername.setText("");
+                    binding.editTextRegisterPassword.setText("");
+                    binding.editTextRegisterConfirmPassword.setText("");
+                });
+
+                NavHostFragment.findNavController(this)
+                        .navigate(R.id.action_signUpFragment_to_loginFragment);
+            }).start();
+
+    }
+
+
 }
+
+

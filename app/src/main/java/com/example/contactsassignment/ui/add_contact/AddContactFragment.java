@@ -64,14 +64,16 @@ public class AddContactFragment extends Fragment {
         });
 
         binding.automaticGenderButton.setOnClickListener(v -> {
+
             String fullName = Objects.requireNonNull(binding.nameEditText.getText()).toString().trim();
-            String[] nameParts = fullName.split("\\s+");
-            if (nameParts.length > 0) {
-                String firstName = nameParts[0]; // Extracting the first part of the name
-                makeApiCall(firstName);
+            if (!fullName.isEmpty()) {
+                String[] nameParts = fullName.split("\\s+");
+
+                    String firstName = nameParts[0];
+                    makeApiCall(firstName);
 
             } else {
-                Toast.makeText(requireContext(), "Please enter a valid name", Toast.LENGTH_SHORT).show();
+                binding.nameTextInputLayout.setError("Name can't be empty!");
             }
         });
 
@@ -83,10 +85,12 @@ public class AddContactFragment extends Fragment {
             String gender = binding.autoCompleteTextView.getText().toString().trim();
 
             // Check if name is empty
-            if (name.isEmpty()) {
-                Toast.makeText(requireContext(), "Please enter a name", Toast.LENGTH_SHORT).show();
+            if (!name.isEmpty()) {
+                name = name.substring(0, 1).toUpperCase() + name.substring(1);
+            } else {
+                binding.nameTextInputLayout.setError("Name can't be empty!");
                 return;
-            };
+            }
 
             int userId = contactsViewModel.getUserId();
 
@@ -131,7 +135,8 @@ public class AddContactFragment extends Fragment {
                         String capitalizedGender =gender.substring(0, 1).toUpperCase() + gender.substring(1);
                         double probability = genderResponse.getProbability();
                         binding.autoCompleteTextView.setText(capitalizedGender);
-                        Toast.makeText(requireContext(), "Gender: " + gender + ", Probability: " + probability, Toast.LENGTH_SHORT).show();
+                        binding.genderTextInputLayout.setHelperText("Gender Probability: " + probability);
+
                     }
                 } else {
                     // Handle error
