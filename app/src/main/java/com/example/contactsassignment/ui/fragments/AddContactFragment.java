@@ -28,8 +28,6 @@ import java.util.Objects;
 
 public class AddContactFragment extends Fragment {
 
-    private final String[] genders = {"Male", "Female"};
-
     private ContactsViewModel contactsViewModel;
     private GenderAdapter genderAdapter;
     private FragmentAddContactBinding binding;
@@ -46,7 +44,7 @@ public class AddContactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+
 
 
         binding.genderTextView.setAdapter(genderAdapter);
@@ -96,17 +94,13 @@ public class AddContactFragment extends Fragment {
             performAddContact(contact);
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private void performAddContact(Contact contact) {
 
-
-
         new Thread(() -> {
             contactsViewModel.addContact(contact);
-
-
 
             requireActivity().runOnUiThread(() -> {
                 NavHostFragment.findNavController(this)

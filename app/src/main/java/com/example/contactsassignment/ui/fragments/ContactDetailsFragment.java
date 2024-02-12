@@ -2,6 +2,8 @@ package com.example.contactsassignment.ui.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
@@ -39,12 +41,11 @@ public class ContactDetailsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentContactDetailsBinding.inflate(inflater, container, false);
         binding.genderTextView.setAdapter(genderAdapter);
         Bundle bundle = getArguments();
-        Contact selectedContact = contactsViewModel.getSelectedContact();
         if (bundle != null) {
             int userId = contactsViewModel.getUserId();
             String contactName = bundle.getString("contactName");

@@ -1,47 +1,40 @@
 package com.example.contactsassignment.ui.fragments;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 
 import com.example.contactsassignment.R;
-import com.example.contactsassignment.data.loacl_db.AppDatabase;
-import com.example.contactsassignment.data.loacl_db.UserDao;
 import com.example.contactsassignment.data.models.User;
-import com.example.contactsassignment.data.repository.UserRepository;
 import com.example.contactsassignment.databinding.FragmentSignUpBinding;
+import com.example.contactsassignment.ui.view_models.AuthViewModel;
 
 
 public class SignUpFragment extends Fragment {
+
+    private AuthViewModel authViewModel;
     private FragmentSignUpBinding binding;
-    private UserRepository userRepository;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userRepository = new UserRepository(requireContext());
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
         binding = FragmentSignUpBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
 
         binding.registerButton.setOnClickListener(v -> {
             String username = binding.editTextRegisterUsername.getText().toString().trim();
@@ -59,7 +52,7 @@ public class SignUpFragment extends Fragment {
 
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     private boolean validateInputs(String username,String password,String confirmPassword) {
@@ -98,7 +91,7 @@ public class SignUpFragment extends Fragment {
 
 
             new Thread(() -> {
-                boolean existingUser = userRepository.isUserExists(username);
+                boolean existingUser = authViewModel.isUserExists(username);
                 if(existingUser){
                     requireActivity().runOnUiThread(() -> {
                         binding.usernameTextInputLayout.setError("Username is already exists");
@@ -108,7 +101,7 @@ public class SignUpFragment extends Fragment {
 
                 }
                 User user = new User(username, password);
-                userRepository.registerUser(user);
+                authViewModel.registerUser(user);
 
                 requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Registration successful", Toast.LENGTH_SHORT).show());
 
@@ -117,9 +110,7 @@ public class SignUpFragment extends Fragment {
                             .navigate(R.id.action_signUpFragment_to_loginFragment);
                 });
             }).start();
-
     }
-
 
 }
 

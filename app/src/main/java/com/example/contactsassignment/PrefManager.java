@@ -1,4 +1,4 @@
-package com.example.contactsassignment.data.loacl_db;
+package com.example.contactsassignment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,20 +9,18 @@ public class PrefManager {
     private final SharedPreferences pref;
     private final SharedPreferences.Editor editor;
 
-    // Constructor
+
     public PrefManager(Context context) {
         pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
 
-    // Save user ID
     public void saveUserId(int userId) {
         editor.putInt(KEY_USER_ID, userId);
         editor.apply();
     }
 
-    // Retrieve user ID
     public int getUserId() {
-        return pref.getInt(KEY_USER_ID, -1); // Default value -1 if not found
+        return pref.getInt(KEY_USER_ID, -1);
     }
 }

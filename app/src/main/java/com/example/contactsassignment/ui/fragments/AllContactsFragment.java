@@ -43,8 +43,6 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentAllContactsBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-
 
         RecyclerView recyclerView = binding.contactsRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -72,7 +70,7 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
                     .navigate(R.id.action_allContactsFragment_to_addContactFragment);
         });
 
-        return view;
+        return binding.getRoot();
     }
     public void onContactClick(Contact contact) {
 
@@ -82,7 +80,6 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
         bundle.putString("contactPhone", contact.getPhone());
         bundle.putString("contactEmail", contact.getEmail());
         bundle.putString("contactGender", contact.getGender());
-contactsViewModel.setSelectedContactId(contact.getId());
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_allContactsFragment_to_contactDetailsFragment, bundle);
     }

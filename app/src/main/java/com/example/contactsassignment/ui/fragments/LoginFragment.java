@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
@@ -13,27 +14,23 @@ import android.view.ViewGroup;
 
 
 import com.example.contactsassignment.R;
-import com.example.contactsassignment.data.loacl_db.PrefManager;
+import com.example.contactsassignment.PrefManager;
 import com.example.contactsassignment.data.repository.UserRepository;
 import com.example.contactsassignment.databinding.FragmentLoginBinding;
-
-
+import com.example.contactsassignment.ui.view_models.AuthViewModel;
+import com.example.contactsassignment.ui.view_models.ContactsViewModel;
 
 
 public class LoginFragment extends Fragment {
 
+    private AuthViewModel authViewModel;
     private FragmentLoginBinding binding;
-    private PrefManager prefManager;
-    private UserRepository userRepository;
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefManager = new PrefManager(requireContext());
-        userRepository = new UserRepository(requireContext());
-
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
     }
 
@@ -62,18 +59,16 @@ public class LoginFragment extends Fragment {
     }
     private void performLogin(String username,String password) {
 
-
             new Thread(() -> {
-                Integer userId = userRepository.loginUser(username, password);
+                int userId = authViewModel.loginUser(username,password);
                 requireActivity().runOnUiThread(() -> {
-                    if (userId != null && userId > 0) {
+                    if ( userId > 0) {
 
-                        prefManager.saveUserId(userId);
                         NavHostFragment.findNavController(this)
                                 .navigate(R.id.action_loginFragment_to_allContactsFragment);
 
                     } else {
-                        boolean isUserExists = userRepository.isUserExists(username);
+                        boolean isUserExists = authViewModel.isUserExists(username);
                         if(isUserExists){
                             binding.passwordTextInputLayout.setError("Incorrect Password!");
                         }
@@ -85,14 +80,9 @@ public class LoginFragment extends Fragment {
                     }
                 });
             }).start();
-
-
-
-
     }
     private boolean validateInputs(String username,String password){
         boolean isValid = true;
-
 
         if (username.isEmpty()) {
             binding.usernameTextInputLayout.setError("Username cannot be empty");
@@ -101,19 +91,12 @@ public class LoginFragment extends Fragment {
             binding.usernameTextInputLayout.setError(null);
         }
 
-
-
         if (password.isEmpty()) {
             binding.passwordTextInputLayout.setError("Password cannot be empty");
             isValid = false;
         } else {
             binding.passwordTextInputLayout.setError(null);
         }
-
-
-
-
-
         return isValid;
     }
     }
