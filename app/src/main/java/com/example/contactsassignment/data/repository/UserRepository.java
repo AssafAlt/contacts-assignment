@@ -2,14 +2,13 @@ package com.example.contactsassignment.data.repository;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
 
 import com.example.contactsassignment.data.loacl_db.AppDatabase;
 import com.example.contactsassignment.data.loacl_db.UserDao;
 import com.example.contactsassignment.data.models.User;
 
 public class UserRepository {
-    private UserDao userDao;
+    private final UserDao userDao;
 
     public UserRepository(Context context){
         AppDatabase db = AppDatabase.getDatabase(context);
