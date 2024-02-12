@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.contactsassignment.PrefManager;
 import com.example.contactsassignment.data.models.Contact;
@@ -42,6 +41,7 @@ public class ContactsViewModel extends AndroidViewModel {
     }
 
     public void updateContact(Contact contact){contactRepository.updateContact(contact);}
+
 }
 
 

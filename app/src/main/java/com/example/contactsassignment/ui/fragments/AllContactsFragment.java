@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.contactsassignment.MainActivity;
 import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.models.Contact;
 import com.example.contactsassignment.databinding.FragmentAllContactsBinding;
@@ -31,6 +33,9 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
     private AllContactsAdapter allContactsAdapter;
     private FragmentAllContactsBinding binding;
 
+    private ImageView logoutIcon;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,22 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentAllContactsBinding.inflate(inflater, container, false);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        logoutIcon = mainActivity.findViewById(R.id.logoutImageView);
+        logoutIcon.setVisibility(View.VISIBLE);
+
+        logoutIcon.setOnClickListener(v->{
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_allContactsFragment_to_loginFragment);
+            logoutIcon.setVisibility(View.INVISIBLE);
+        });
+
 
         RecyclerView recyclerView = binding.contactsRecyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
          allContactsAdapter = new AllContactsAdapter(new ArrayList<>(), this);
         recyclerView.setAdapter(allContactsAdapter);
+
 
         binding.searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -83,4 +99,5 @@ public class AllContactsFragment extends Fragment implements AllContactsAdapter.
         NavHostFragment.findNavController(this)
                 .navigate(R.id.action_allContactsFragment_to_contactDetailsFragment, bundle);
     }
+
 }

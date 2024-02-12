@@ -23,4 +23,9 @@ public class PrefManager {
     public int getUserId() {
         return pref.getInt(KEY_USER_ID, -1);
     }
+
+    public void clearUserId() {
+        editor.remove(KEY_USER_ID);
+        editor.apply();
+    }
 }

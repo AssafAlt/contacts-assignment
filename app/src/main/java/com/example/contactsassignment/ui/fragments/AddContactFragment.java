@@ -11,8 +11,10 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 
+import com.example.contactsassignment.MainActivity;
 import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.models.Contact;
 import com.example.contactsassignment.databinding.FragmentAddContactBinding;
@@ -31,7 +33,7 @@ public class AddContactFragment extends Fragment {
     private ContactsViewModel contactsViewModel;
     private GenderAdapter genderAdapter;
     private FragmentAddContactBinding binding;
-
+    private ImageView logoutIcon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,15 @@ public class AddContactFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentAddContactBinding.inflate(inflater, container, false);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        logoutIcon = mainActivity.findViewById(R.id.logoutImageView);
+        logoutIcon.setVisibility(View.VISIBLE);
 
+        logoutIcon.setOnClickListener(v->{
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_addContactFragment_to_loginFragment);
+            logoutIcon.setVisibility(View.INVISIBLE);
+        });
 
 
         binding.genderTextView.setAdapter(genderAdapter);

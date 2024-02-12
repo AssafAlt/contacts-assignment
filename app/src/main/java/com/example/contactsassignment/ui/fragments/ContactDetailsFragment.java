@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.contactsassignment.MainActivity;
 import com.example.contactsassignment.R;
 import com.example.contactsassignment.data.models.Contact;
 import com.example.contactsassignment.databinding.FragmentContactDetailsBinding;
@@ -31,7 +33,7 @@ public class ContactDetailsFragment extends Fragment {
     private boolean isEditMode = false;
 
    private Integer contactId;
-
+    private ImageView logoutIcon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,15 @@ public class ContactDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentContactDetailsBinding.inflate(inflater, container, false);
         binding.genderTextView.setAdapter(genderAdapter);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        logoutIcon = mainActivity.findViewById(R.id.logoutImageView);
+        logoutIcon.setVisibility(View.VISIBLE);
+
+        logoutIcon.setOnClickListener(v->{
+            NavHostFragment.findNavController(this)
+                    .navigate(R.id.action_contactDetailsFragment_to_loginFragment);
+            logoutIcon.setVisibility(View.INVISIBLE);
+        });
         Bundle bundle = getArguments();
         if (bundle != null) {
             int userId = contactsViewModel.getUserId();

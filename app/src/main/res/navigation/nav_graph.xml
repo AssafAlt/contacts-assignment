@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_allContactsFragment_to_contactDetailsFragment"
             app:destination="@id/contactDetailsFragment" />
+        <action
+            android:id="@+id/action_allContactsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"
@@ -46,6 +49,9 @@
         <action
             android:id="@+id/action_addContactFragment_to_allContactsFragment"
             app:destination="@id/allContactsFragment" />
+        <action
+            android:id="@+id/action_addContactFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactDetailsFragment"
@@ -55,5 +61,8 @@
         <action
             android:id="@+id/action_contactDetailsFragment_to_allContactsFragment"
             app:destination="@id/allContactsFragment" />
+        <action
+            android:id="@+id/action_contactDetailsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
